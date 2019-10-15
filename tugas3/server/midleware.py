@@ -1,5 +1,8 @@
 import os
+import threading
+import time
 
+clist = []
 
 class GreetServer(object):
     def __init__(self):
@@ -7,6 +10,34 @@ class GreetServer(object):
 
     def test(self):
         return "oke"
+
+    def heartbeating(a):
+        global clist
+        panjang = len(clist)
+        while True:
+            for x in range(panjang):
+                clist[x][1]+=int(1)
+            time.sleep(1)
+
+    def heartbeat_check(self,client_id):
+        panjang = len(clist)
+        for x in range(panjang):
+            if clist[x][0] == client_id:
+                return int(clist[x][1])
+
+    def hello(self,client_id):
+        global clist
+        list2 = [client_id, int(1)]
+        clist.append(list2)
+        return(str(client_id)+"listed")
+
+    def remove_client(self,client_id):
+        global clist
+        panjang = len(clist)
+        for x in range(panjang):
+            if clist[x][0] == client_id:
+                del clist[x]
+                return(str(client_id)+" removed")
 
     def runperintah(self,perintah=None,isi_file=None):
         perintah = perintah.split(" ")
@@ -56,3 +87,5 @@ class GreetServer(object):
 if __name__ == '__main__':
     k = GreetServer()
     print(k.get_greet('royyana'))
+    t = threading.Thread(target=heartbeating, args=(1,))
+    t.start()

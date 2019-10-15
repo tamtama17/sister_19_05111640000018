@@ -1,10 +1,13 @@
 import Pyro4
+import uuid
+import os
 import threading
 import time
-import os
 
 uri = "PYRONAME:greetserver@localhost:7777"
 
+beat = int(1)
+client_id = uuid.uuid1()
 
 def test_with_ns():
     gserver = Pyro4.Proxy(uri)
@@ -19,24 +22,31 @@ def service(perintah=None,isi_file=None):
     else:
         print(gserver.runperintah(perintah,isi_file))
 
-def pingack(counter):
+def inisiasi():
+    global client_id
+    fserver = Pyro4.Proxy(uri)
+    print(fserver.hello(client_id))
+
+def beat_check(a):
+    global beat
+    global client_id
     while True:
-        try:
-            fserver = Pyro4.Proxy(uri)
-            fserver.test()
-            counter = 0
-        except:
-            counter+=1
-            if counter>2:
-                print("\nCan't reach server")
-                os._exit(0)
+        fserver = Pyro4.Proxy(uri)
+        heartbeat_rn = fserver.heartbeat_check(client_id)
+        if beat != heartbeat_rn:
+            print(fserver.remove_client(client_id))
+            print("there's an error")
+            os._exit(0)
+        else:
+            beat+=1
         time.sleep(1)
 
-
-
 if __name__=='__main__':
-    t = threading.Thread(target=pingack, args=(0,))
+    inisiasi()
+
+    t = threading.Thread(target=beat_check, args=(0,))
     t.start()
+
     while True:
         print("List Perintah")
         print("1. READ [nama_file] -> untuk melihat isi file")
