@@ -5,6 +5,9 @@ class GreetServer(object):
     def __init__(self):
         pass
 
+    def test(self):
+        return "oke"
+
     def runperintah(self,perintah=None,isi_file=None):
         perintah = perintah.split(" ")
         file_ga_ada = "File tidak ditemukan"
