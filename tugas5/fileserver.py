@@ -1,5 +1,6 @@
 import os
 import base64
+import Pyro4
 
 serverlist = []
 
@@ -18,8 +19,7 @@ class FileServer(object):
         fserver = Pyro4.Proxy(uri)
         return fserver
 
-    def replication(self, darisiapa, perintah, filename, isi):
-        print("darisiapa")
+    def replikasi(self, darisiapa, perintah, filename, isi):
         for server in serverlist:
             if str(darisiapa) != str(server):
                 fserver=self.get_fileserver_object(server)
@@ -29,3 +29,6 @@ class FileServer(object):
                     fserver.update(filename, isi,'repl_mng')
                 elif perintah=='delete':
                     fserver.delete(filename,'repl_mng')
+
+if __name__ == '__main__':
+    k = FileServer()

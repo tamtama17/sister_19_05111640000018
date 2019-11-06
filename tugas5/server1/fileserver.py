@@ -1,5 +1,6 @@
 import os
 import base64
+import Pyro4
 
 class FileServer(object):
     def __init__(self):
@@ -34,9 +35,10 @@ class FileServer(object):
             f.close()
             if darimana=='client':
                 repl_mng_server = self.get_repl_mng_object()
-                repl_mng_server.replication('fileserver1','create',name,None)
+                repl_mng_server.replikasi("fileserver1","create",name,None)
             return self.create_return_message('100','OK')
-        except:
+        except Exception as e:
+            print(e)
             return self.create_return_message('500','Error')
     def read(self,name):
         nama='FFF-{}' . format(name)
@@ -60,7 +62,7 @@ class FileServer(object):
             f.close()
             if darimana=='client':
                 repl_mng_server = self.get_repl_mng_object()
-                repl_mng_server.replication('fileserver1','update',name,content)
+                repl_mng_server.replikasi("fileserver1","update",name,content)
             return self.create_return_message('101','OK')
         except Exception as e:
             return self.create_return_message('500','Error',str(e))
@@ -73,7 +75,10 @@ class FileServer(object):
             os.remove(nama)
             if darimana=='client':
                 repl_mng_server = self.get_repl_mng_object()
-                repl_mng_server.replication('fileserver1','delete',name,None)
+                repl_mng_server.replikasi("fileserver1","delete",name,None)
             return self.create_return_message('101','OK')
         except:
             return self.create_return_message('500','Error')
+
+if __name__ == '__main__':
+    k = FileServer()

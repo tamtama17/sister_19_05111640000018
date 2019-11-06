@@ -33,9 +33,9 @@ if __name__=='__main__':
         elif cmd[0] == "READ":
             print(f.read(cmd[1]))
         elif cmd[0] == "CREATE":
-            f.create(cmd[1], 'client')
+            print(f.create(cmd[1], 'client'))
         elif cmd[0] == "DELETE":
-            f.delete(cmd[1], 'client')
+            print(f.delete(cmd[1], 'client'))
         elif cmd[0] == "BYE":
             print("Terimakasih :)")
             break
