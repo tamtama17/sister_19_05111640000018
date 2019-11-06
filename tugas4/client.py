@@ -3,7 +3,7 @@ import base64
 import json
 import sys
 
-namainstance = sys.argv[1] or "fileserver"
+namainstance = "fileserver"
 
 def get_fileserver_object():
     uri = "PYRONAME:{}@localhost:7777" . format(namainstance)
