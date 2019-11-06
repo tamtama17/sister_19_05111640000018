@@ -33,12 +33,15 @@ def beat_check(a):
     while True:
         fserver = Pyro4.Proxy(uri)
         heartbeat_rn = fserver.heartbeat_check(client_id)
-        if beat != heartbeat_rn:
-            print(fserver.remove_client(client_id))
-            print("there's an error")
-            os._exit(0)
-        else:
-            beat+=1
+        # if beat != heartbeat_rn:
+        #     print(fserver.remove_client(client_id))
+        #     print("there's an error")
+        #     os._exit(0)
+        # else:
+        #     beat+=1
+        beat+=1
+        print("beat:"+str(beat))
+        print("heartbeat_rn:"+str(heartbeat_rn))
         time.sleep(1)
 
 if __name__=='__main__':

@@ -4,6 +4,16 @@ import time
 
 clist = []
 
+def heartbeating(self):
+    print("deg deg")
+    global clist
+    while True:
+        panjang = len(clist)
+        for x in range(panjang):
+            clist[x][1]+=int(1)
+        print(clist)
+        time.sleep(1)
+
 class GreetServer(object):
     def __init__(self):
         pass
@@ -11,19 +21,11 @@ class GreetServer(object):
     def test(self):
         return "oke"
 
-    def heartbeating(a):
-        global clist
-        panjang = len(clist)
-        while True:
-            for x in range(panjang):
-                clist[x][1]+=int(1)
-            time.sleep(1)
-
     def heartbeat_check(self,client_id):
         panjang = len(clist)
         for x in range(panjang):
             if clist[x][0] == client_id:
-                return int(clist[x][1])
+                return clist[x][1]
 
     def hello(self,client_id):
         global clist
@@ -86,6 +88,5 @@ class GreetServer(object):
 
 if __name__ == '__main__':
     k = GreetServer()
-    print(k.get_greet('royyana'))
-    t = threading.Thread(target=heartbeating, args=(1,))
+    t = threading.Thread(target=heartbeating)
     t.start()
